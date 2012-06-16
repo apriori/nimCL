@@ -25,8 +25,11 @@
 when defined(macosx): 
   nil
 else:
-  import "cl/cl"
-  import "cl/cl_gl"
-  import "cl/cl_gl_ext"
-  import "cl/cl_ext"
+  nil
+  
+import "cl/cl"
+import "cl/cl_platform"
+import "cl/cl_gl"
+import "cl/cl_gl_ext"
+import "cl/cl_ext"
 

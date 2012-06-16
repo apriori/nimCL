@@ -24,6 +24,7 @@
 
 import "cl/cl_platform"
 {.push callConv: stdcall.} 
+{.deadCodeElim:on.}
 
 
 when defined(windows):
@@ -50,8 +51,8 @@ type
   TCLBool*{.pure, final.} = PCLObject
 # WARNING!  Unlike TCL types in TCLplatform.h, TCLbool is not guaranteed to be the same size as the bool in kernels. 
 type 
-  TCLSize_t* = TCLUlong
-  TCLBitfield* = TCLUlong
+  TCLsize_t* = TCLulong
+  TCLBitfield* = TCLulong
   TCLDevice_type* = TCLbitfield
   TCLPlatform_info* = TCLuint
   TCLDevice_info* = TCLuint
@@ -87,8 +88,8 @@ type
   #  image_channel_data_type*: TCLchannel_type
 
   #TCLBuffer_region*{.pure, final.} = object 
-  #  origin*: TCLSize_t
-  #  size*: TCLSize_t
+  #  origin*: TCLsize_t
+  #  size*: TCLsize_t
 
 #****************************************************************************
 # Error Codes 
@@ -289,7 +290,7 @@ const
   CL_RGBA* = 0x000010B5
   CL_BGRA* = 0x000010B6
   CL_ARGB* = 0x000010B7
-  TCLIntENSITY* = 0x000010B8
+  TCLintENSITY* = 0x000010B8
   CL_LUMINANCE* = 0x000010B9
   CL_Rx* = 0x000010BA
   CL_RGx* = 0x000010BB
@@ -441,68 +442,68 @@ const
 # Platform API 
 proc clGetPlatformIDs*(a2: TCLUint,  # num_entries 
                        a3: ptr TCLPlatform_id,  # platforms 
-                       a4: ptr TCLUint): TCLInt {.importc: "clGetPlatformIDs", dynlib: cldll.}
+                       a4: ptr TCLUint): TCLint {.importc: "clGetPlatformIDs", dynlib: cldll.}
   # num_platforms 
 proc clGetPlatformInfo*(a2: TCLPlatform_id,  # platform 
                         a3: TCLPlatform_info,  # param_name 
-                        a4: TCLSize_t,  # param_value_size 
+                        a4: TCLsize_t,  # param_value_size 
                         a5: pointer, 
-                        a6: ptr TCLSize_t): TCLInt {.importc: "clGetPlatformInfo", dynlib: cldll.}
+                        a6: ptr TCLsize_t): TCLint {.importc: "clGetPlatformInfo", dynlib: cldll.}
   # param_value_size_ret 
 # Device APIs 
 proc clGetDeviceIDs*(a2: TCLPlatform_id,  # platform 
                      a3: TCLDevice_type,  # device_type 
                      a4: TCLUint,  # num_entries 
                      a5: ptr TCLDevice_id,  # devices 
-                     a6: ptr TCLUint): TCLInt {.importc: "clGetDeviceIDs", dynlib: cldll.}
+                     a6: ptr TCLUint): TCLint {.importc: "clGetDeviceIDs", dynlib: cldll.}
   # num_devices 
 proc clGetDeviceInfo*(a2: TCLDevice_id,  # device 
                       a3: TCLDevice_info,  # param_name 
-                      a4: TCLSize_t,  # param_value_size 
+                      a4: TCLsize_t,  # param_value_size 
                       a5: pointer, 
-                      a6: ptr TCLSize_t): TCLInt {.importc: "clGetDeviceInfo", dynlib: cldll.}
+                      a6: ptr TCLsize_t): TCLint {.importc: "clGetDeviceInfo", dynlib: cldll.}
   # param_value_size_ret 
 # Context APIs  
 proc clCreateContext*(a2: ptr TCLContext_properties,  # properties 
                       a3: TCLUint,  # num_devices 
                       a4: ptr TCLDevice_id,  # devices 
-                      a5: proc (a2: cstring, a3: pointer, a4: TCLSize_t, 
+                      a5: proc (a2: cstring, a3: pointer, a4: TCLsize_t, 
                                 a5: pointer),
                       a6: pointer, 
-                      a7: ptr TCLInt): TCLContext {.importc: "clCreateContext", dynlib: cldll.}
+                      a7: ptr TCLint): TCLContext {.importc: "clCreateContext", dynlib: cldll.}
   # errcode_ret 
 proc clCreateContextFromType*(a2: ptr TCLContext_properties,  # properties 
                               a3: TCLDevice_type,  # device_type 
-                              a4: proc (a2: cstring, a3: pointer, a4: TCLSize_t, 
+                              a4: proc (a2: cstring, a3: pointer, a4: TCLsize_t, 
                                         a5: pointer),  # pfn_notify
                               a5: pointer, 
-                              a6: ptr TCLInt): TCLContext {.importc: "clCreateContextFromType", dynlib: cldll.}
+                              a6: ptr TCLint): TCLContext {.importc: "clCreateContextFromType", dynlib: cldll.}
   # errcode_ret 
-proc clRetainContext*(a2: TCLContext): TCLInt {.importc: "clRetainContext", dynlib: cldll.}
+proc clRetainContext*(a2: TCLContext): TCLint {.importc: "clRetainContext", dynlib: cldll.}
   # context 
-proc clReleaseContext*(a2: TCLContext): TCLInt {.importc: "clReleaseContext", dynlib: cldll.}
+proc clReleaseContext*(a2: TCLContext): TCLint {.importc: "clReleaseContext", dynlib: cldll.}
   # context 
 proc clGetContextInfo*(a2: TCLContext,  # context 
                        a3: TCLContext_info,  # param_name 
-                       a4: TCLSize_t,  # param_value_size 
+                       a4: TCLsize_t,  # param_value_size 
                        a5: pointer, 
-                       a6: ptr TCLSize_t): TCLInt {.importc: "clGetContextInfo", dynlib: cldll.}
+                       a6: ptr TCLsize_t): TCLint {.importc: "clGetContextInfo", dynlib: cldll.}
   # param_value_size_ret 
 # Command Queue APIs 
 proc clCreateCommandQueue*(a2: TCLContext,  # context 
                            a3: TCLDevice_id,  # device 
                            a4: TCLCommand_queue_properties,  # properties 
-                           a5: ptr TCLInt): TCLCommand_queue {.importc: "clCreateCommandQueue", dynlib: cldll.}
+                           a5: ptr TCLint): TCLCommand_queue {.importc: "clCreateCommandQueue", dynlib: cldll.}
   # errcode_ret 
-proc clRetainCommandQueue*(a2: TCLCommand_queue): TCLInt {.importc: "clRetainCommandQueue", dynlib: cldll.}
+proc clRetainCommandQueue*(a2: TCLCommand_queue): TCLint {.importc: "clRetainCommandQueue", dynlib: cldll.}
   # command_queue 
-proc clReleaseCommandQueue*(a2: TCLCommand_queue): TCLInt {.importc: "clReleaseCommandQueue", dynlib: cldll.}
+proc clReleaseCommandQueue*(a2: TCLCommand_queue): TCLint {.importc: "clReleaseCommandQueue", dynlib: cldll.}
   # command_queue 
 proc clGetCommandQueueInfo*(a2: TCLCommand_queue,  # command_queue 
                             a3: TCLCommand_queue_info,  # param_name 
-                            a4: TCLSize_t,  # param_value_size 
+                            a4: TCLsize_t,  # param_value_size 
                             a5: pointer, 
-                            a6: ptr TCLSize_t): TCLInt {.importc: "clGetCommandQueueInfo", dynlib: cldll.}
+                            a6: ptr TCLsize_t): TCLint {.importc: "clGetCommandQueueInfo", dynlib: cldll.}
   # param_value_size_ret 
 when defined(CL_USE_OPENCL_1_0_APIS): 
   # 
@@ -518,96 +519,96 @@ when defined(CL_USE_OPENCL_1_0_APIS):
   proc clSetCommandQueueProperty*(a2: TCLCommand_queue,  # command_queue 
                                   a3: TCLCommand_queue_properties,  # properties 
                                   a4: cl_bool,  # enable 
-                                  a5: ptr TCLCommand_queue_properties): TCLInt {.importc: "clSetCommandQueueProperty", dynlib: cldll.}
+                                  a5: ptr TCLCommand_queue_properties): TCLint {.importc: "clSetCommandQueueProperty", dynlib: cldll.}
     # old_properties 
 # Memory Object APIs 
 proc clCreateBuffer*(a2: TCLContext,  # context 
                      a3: TCLMem_flags,  # flags 
-                     a4: TCLSize_t,  # size 
+                     a4: TCLsize_t,  # size 
                      a5: pointer, a6: 
-                     ptr TCLInt): TCLMem {.importc: "clCreateBuffer", dynlib: cldll.}
+                     ptr TCLint): TCLMem {.importc: "clCreateBuffer", dynlib: cldll.}
   # errcode_ret 
 proc clCreateSubBuffer*(a2: TCLMem,  # buffer 
                         a3: TCLMem_flags,  # flags 
                         a4: TCLBuffer_create_type,  # buffer_create_type 
-                        a5: pointer, a6: ptr TCLInt): TCLMem {.importc: "clCreateSubBuffer", dynlib: cldll.}
+                        a5: pointer, a6: ptr TCLint): TCLMem {.importc: "clCreateSubBuffer", dynlib: cldll.}
   # errcode_ret 
 proc clCreateImage2D*(a2: TCLContext,  # context 
                       a3: TCLMem_flags,  # flags 
                       a4: ptr TCLImage_format,  # image_format 
-                      a5: TCLSize_t,  # image_width 
-                      a6: TCLSize_t,  # image_height 
-                      a7: TCLSize_t,  # image_row_pitch 
-                      a8: pointer, a9: ptr TCLInt): TCLMem {.importc: "clCreateImage2D", dynlib: cldll.}
+                      a5: TCLsize_t,  # image_width 
+                      a6: TCLsize_t,  # image_height 
+                      a7: TCLsize_t,  # image_row_pitch 
+                      a8: pointer, a9: ptr TCLint): TCLMem {.importc: "clCreateImage2D", dynlib: cldll.}
   # errcode_ret 
 proc clCreateImage3D*(a2: TCLContext,  # context 
                       a3: TCLMem_flags,  # flags 
                       a4: ptr TCLImage_format,  # image_format 
-                      a5: TCLSize_t,  # image_width 
-                      a6: TCLSize_t,  # image_height 
-                      a7: TCLSize_t,  # image_depth 
-                      a8: TCLSize_t,  # image_row_pitch 
-                      a9: TCLSize_t,  # image_slice_pitch 
-                      a10: pointer, a11: ptr TCLInt): TCLMem {.importc: "clCreateImage3D", dynlib: cldll.}
+                      a5: TCLsize_t,  # image_width 
+                      a6: TCLsize_t,  # image_height 
+                      a7: TCLsize_t,  # image_depth 
+                      a8: TCLsize_t,  # image_row_pitch 
+                      a9: TCLsize_t,  # image_slice_pitch 
+                      a10: pointer, a11: ptr TCLint): TCLMem {.importc: "clCreateImage3D", dynlib: cldll.}
   # errcode_ret 
-proc clRetainMemObject*(a2: TCLMem): TCLInt {.importc: "clRetainMemObject", dynlib: cldll.}
+proc clRetainMemObject*(a2: TCLMem): TCLint {.importc: "clRetainMemObject", dynlib: cldll.}
   # memobj 
-proc clReleaseMemObject*(a2: TCLMem): TCLInt {.importc: "clReleaseMemObject", dynlib: cldll.}
+proc clReleaseMemObject*(a2: TCLMem): TCLint {.importc: "clReleaseMemObject", dynlib: cldll.}
   # memobj 
 proc clGetSupportedImageFormats*(a2: TCLContext,  # context 
                                  a3: TCLMem_flags,  # flags 
                                  a4: TCLMem_object_type,  # image_type 
                                  a5: TCLUint,  # num_entries 
                                  a6: ptr TCLImage_format,  # image_formats 
-                                 a7: ptr TCLUint): TCLInt {.importc: "clGetSupportedImageFormats", dynlib: cldll.}
+                                 a7: ptr TCLUint): TCLint {.importc: "clGetSupportedImageFormats", dynlib: cldll.}
   # num_image_formats 
 proc clGetMemObjectInfo*(a2: TCLMem,  # memobj 
                          a3: TCLMem_info,  # param_name 
-                         a4: TCLSize_t,  # param_value_size 
-                         a5: pointer, a6: ptr TCLSize_t): TCLInt {.importc: "clGetMemObjectInfo", dynlib: cldll.}
+                         a4: TCLsize_t,  # param_value_size 
+                         a5: pointer, a6: ptr TCLsize_t): TCLint {.importc: "clGetMemObjectInfo", dynlib: cldll.}
   # param_value_size_ret 
 proc clGetImageInfo*(a2: TCLMem,  # image 
                      a3: TCLImage_info,  # param_name 
-                     a4: TCLSize_t,  # param_value_size 
-                     a5: pointer, a6: ptr TCLSize_t): TCLInt {.importc: "clGetImageInfo", dynlib: cldll.}
+                     a4: TCLsize_t,  # param_value_size 
+                     a5: pointer, a6: ptr TCLsize_t): TCLint {.importc: "clGetImageInfo", dynlib: cldll.}
   # param_value_size_ret 
 proc clSetMemObjectDestructorCallback*(a2: TCLMem,  # memobj 
     a3: proc (a2: TCLMem,   # memobj 
               a3: pointer),  #pfn_notify
-    a4: pointer): TCLInt {.importc: "clSetMemObjectDestructorCallback", dynlib: cldll.}
+    a4: pointer): TCLint {.importc: "clSetMemObjectDestructorCallback", dynlib: cldll.}
 # Sampler APIs  
 proc clCreateSampler*(a2: TCLContext,  # context 
                       a3: TCLBool,  # normalized_coords 
                       a4: TCLAddressing_mode,  # addressing_mode 
                       a5: TCLFilter_mode,  # filter_mode 
-                      a6: ptr TCLInt): TCLSampler {.importc: "clCreateSampler", dynlib: cldll.}
+                      a6: ptr TCLint): TCLSampler {.importc: "clCreateSampler", dynlib: cldll.}
   # errcode_ret 
-proc clRetainSampler*(a2: TCLSampler): TCLInt {.importc: "clRetainSampler", dynlib: cldll.}
+proc clRetainSampler*(a2: TCLSampler): TCLint {.importc: "clRetainSampler", dynlib: cldll.}
   # sampler 
-proc clReleaseSampler*(a2: TCLSampler): TCLInt {.importc: "clReleaseSampler", dynlib: cldll.}
+proc clReleaseSampler*(a2: TCLSampler): TCLint {.importc: "clReleaseSampler", dynlib: cldll.}
   # sampler 
 proc clGetSamplerInfo*(a2: TCLSampler,  # sampler 
                        a3: TCLSampler_info,  # param_name 
-                       a4: TCLSize_t,  # param_value_size 
-                       a5: pointer, a6: ptr TCLSize_t): TCLInt {.importc: "clGetSamplerInfo", dynlib: cldll.}
+                       a4: TCLsize_t,  # param_value_size 
+                       a5: pointer, a6: ptr TCLsize_t): TCLint {.importc: "clGetSamplerInfo", dynlib: cldll.}
   # param_value_size_ret 
 # Program Object APIs  
 proc clCreateProgramWithSource*(a2: TCLContext,  # context 
                                 a3: TCLUint,  # count 
-                                a4: cstringArray, a5: ptr TCLSize_t,  # lengths 
-                                a6: ptr TCLInt): TCLProgram {.importc: "clCreateProgramWithSource", dynlib: cldll.}
+                                a4: cstringArray, a5: ptr TCLsize_t,  # lengths 
+                                a6: ptr TCLint): TCLProgram {.importc: "clCreateProgramWithSource", dynlib: cldll.}
   # errcode_ret 
 proc clCreateProgramWithBinary*(a2: TCLContext,  # context 
                                 a3: TCLUint,  # num_devices 
                                 a4: ptr TCLDevice_id,  # device_list 
-                                a5: ptr TCLSize_t,  # lengths 
+                                a5: ptr TCLsize_t,  # lengths 
                                 a6: ptr ptr cchar,  # binaries 
-                                a7: ptr TCLInt,  # binary_status 
-                                a8: ptr TCLInt): TCLProgram {.importc: "clCreateProgramWithBinary", dynlib: cldll.}
+                                a7: ptr TCLint,  # binary_status 
+                                a8: ptr TCLint): TCLProgram {.importc: "clCreateProgramWithBinary", dynlib: cldll.}
   # errcode_ret 
-proc clRetainProgram*(a2: TCLProgram): TCLInt {.importc: "clRetainProgram", dynlib: cldll.}
+proc clRetainProgram*(a2: TCLProgram): TCLint {.importc: "clRetainProgram", dynlib: cldll.}
   # program 
-proc clReleaseProgram*(a2: TCLProgram): TCLInt {.importc: "clReleaseProgram", dynlib: cldll.}
+proc clReleaseProgram*(a2: TCLProgram): TCLint {.importc: "clReleaseProgram", dynlib: cldll.}
   # program 
 proc clBuildProgram*(a2: TCLProgram,  # program 
                      a3: TCLUint,  # num_devices 
@@ -615,258 +616,258 @@ proc clBuildProgram*(a2: TCLProgram,  # program
                      a5: cstring, 
                      a6: proc (a2: TCLProgram,  # program 
                                a3: pointer),  # pfn_notify 
-                     a7: pointer): TCLInt {.importc: "clBuildProgram", dynlib: cldll.}
-proc clUnloadCompiler*(): TCLInt {.importc: "clUnloadCompiler", dynlib: cldll.}
+                     a7: pointer): TCLint {.importc: "clBuildProgram", dynlib: cldll.}
+proc clUnloadCompiler*(): TCLint {.importc: "clUnloadCompiler", dynlib: cldll.}
 proc clGetProgramInfo*(a2: TCLProgram,  # program  
                        a3: TCLProgram_info,  # param_name 
-                       a4: TCLSize_t,  # param_value_size 
-                       a5: pointer, a6: ptr TCLSize_t): TCLInt {.importc: "clGetProgramInfo", dynlib: cldll.}
+                       a4: TCLsize_t,  # param_value_size 
+                       a5: pointer, a6: ptr TCLsize_t): TCLint {.importc: "clGetProgramInfo", dynlib: cldll.}
   # param_value_size_ret 
 proc clGetProgramBuildInfo*(a2: TCLProgram,  # program 
                             a3: TCLDevice_id,  # device 
                             a4: TCLProgram_build_info,  # param_name 
-                            a5: TCLSize_t,  # param_value_size 
-                            a6: pointer, a7: ptr TCLSize_t): TCLInt {.importc: "clGetProgramBuildInfo", dynlib: cldll.}
+                            a5: TCLsize_t,  # param_value_size 
+                            a6: pointer, a7: ptr TCLsize_t): TCLint {.importc: "clGetProgramBuildInfo", dynlib: cldll.}
   # param_value_size_ret 
 # Kernel Object APIs 
 proc clCreateKernel*(a2: TCLProgram,  # program 
-                     a3: cstring, a4: ptr TCLInt): TCLKernel {.importc: "clCreateKernel", dynlib: cldll.}
+                     a3: cstring, a4: ptr TCLint): TCLKernel {.importc: "clCreateKernel", dynlib: cldll.}
   # errcode_ret 
 proc clCreateKernelsInProgram*(a2: TCLProgram,  # program 
                                a3: TCLUint,  # num_kernels 
                                a4: ptr TCLKernel,  # kernels 
-                               a5: ptr TCLUint): TCLInt {.importc: "clCreateKernelsInProgram", dynlib: cldll.}
+                               a5: ptr TCLUint): TCLint {.importc: "clCreateKernelsInProgram", dynlib: cldll.}
   # num_kernels_ret 
-proc clRetainKernel*(a2: TCLKernel): TCLInt {.importc: "clRetainKernel", dynlib: cldll.}
+proc clRetainKernel*(a2: TCLKernel): TCLint {.importc: "clRetainKernel", dynlib: cldll.}
   # kernel 
-proc clReleaseKernel*(a2: TCLKernel): TCLInt {.importc: "clReleaseKernel", dynlib: cldll.}
+proc clReleaseKernel*(a2: TCLKernel): TCLint {.importc: "clReleaseKernel", dynlib: cldll.}
   # kernel 
 proc clSetKernelArg*(a2: TCLKernel,  # kernel 
                      a3: TCLUint,  # arg_index 
-                     a4: TCLSize_t,  # arg_size 
-                     a5: pointer): TCLInt {.importc: "clSetKernelArg", dynlib: cldll.}
+                     a4: TCLsize_t,  # arg_size 
+                     a5: pointer): TCLint {.importc: "clSetKernelArg", dynlib: cldll.}
 proc clGetKernelInfo*(a2: TCLKernel,  # kernel 
                       a3: TCLKernel_info,  # param_name 
-                      a4: TCLSize_t,  # param_value_size 
-                      a5: pointer, a6: ptr TCLSize_t): TCLInt {.importc: "clGetKernelInfo", dynlib: cldll.}
+                      a4: TCLsize_t,  # param_value_size 
+                      a5: pointer, a6: ptr TCLsize_t): TCLint {.importc: "clGetKernelInfo", dynlib: cldll.}
   # param_value_size_ret 
 proc clGetKernelWorkGroupInfo*(a2: TCLKernel,  # kernel 
                                a3: TCLDevice_id,  # device 
                                a4: TCLKernel_work_group_info,  # param_name 
-                               a5: TCLSize_t,  # param_value_size 
-                               a6: pointer, a7: ptr TCLSize_t): TCLInt {.importc: "clGetKernelWorkGroupInfo", dynlib: cldll.}
+                               a5: TCLsize_t,  # param_value_size 
+                               a6: pointer, a7: ptr TCLsize_t): TCLint {.importc: "clGetKernelWorkGroupInfo", dynlib: cldll.}
   # param_value_size_ret 
 # Event Object APIs  
 proc clWaitForEvents*(a2: TCLUint,  # num_events 
-                      a3: ptr TCLKernel): TCLInt {.importc: "clWaitForEvents", dynlib: cldll.}
+                      a3: ptr TCLKernel): TCLint {.importc: "clWaitForEvents", dynlib: cldll.}
   # event_list 
 proc clGetEventInfo*(a2: TCLEvent,  # event 
                      a3: TCLEvent_info,  # param_name 
-                     a4: TCLSize_t,  # param_value_size 
-                     a5: pointer, a6: ptr TCLSize_t): TCLInt {.importc: "clGetEventInfo", dynlib: cldll.}
+                     a4: TCLsize_t,  # param_value_size 
+                     a5: pointer, a6: ptr TCLsize_t): TCLint {.importc: "clGetEventInfo", dynlib: cldll.}
   # param_value_size_ret 
 proc clCreateUserEvent*(a2: TCLContext,  # context 
-                        a3: ptr TCLInt): TCLEvent {.importc: "clCreateUserEvent", dynlib: cldll.}
+                        a3: ptr TCLint): TCLEvent {.importc: "clCreateUserEvent", dynlib: cldll.}
   # errcode_ret 
-proc clRetainEvent*(a2: TCLEvent): TCLInt {.importc: "clRetainEvent", dynlib: cldll.}
+proc clRetainEvent*(a2: TCLEvent): TCLint {.importc: "clRetainEvent", dynlib: cldll.}
   # event 
-proc clReleaseEvent*(a2: TCLEvent): TCLInt {.importc: "clReleaseEvent", dynlib: cldll.}
+proc clReleaseEvent*(a2: TCLEvent): TCLint {.importc: "clReleaseEvent", dynlib: cldll.}
   # event 
 proc clSetUserEventStatus*(a2: TCLEvent,  # event 
-                           a3: TCLInt): TCLInt {.importc: "clSetUserEventStatus", dynlib: cldll.}
+                           a3: TCLint): TCLint {.importc: "clSetUserEventStatus", dynlib: cldll.}
   # execution_status 
 proc clSetEventCallback*(a2: TCLEvent,  # event 
-                         a3: TCLInt,  # command_exec_callback_type 
-                         a4: proc (a2: TCLEvent, a3: TCLInt, a4: pointer),   # pfn_notify 
-                                   a5: pointer): TCLInt {.importc: "clSetEventCallback", dynlib: cldll.}
+                         a3: TCLint,  # command_exec_callback_type 
+                         a4: proc (a2: TCLEvent, a3: TCLint, a4: pointer),   # pfn_notify 
+                                   a5: pointer): TCLint {.importc: "clSetEventCallback", dynlib: cldll.}
 # Profiling APIs  
 proc clGetEventProfilingInfo*(a2: TCLEvent,  # event 
                               a3: TCLProfiling_info,  # param_name 
-                              a4: TCLSize_t,  # param_value_size 
-                              a5: pointer, a6: ptr TCLSize_t): TCLInt {.importc: "clGetEventProfilingInfo", dynlib: cldll.}
+                              a4: TCLsize_t,  # param_value_size 
+                              a5: pointer, a6: ptr TCLsize_t): TCLint {.importc: "clGetEventProfilingInfo", dynlib: cldll.}
   # param_value_size_ret 
 # Flush and Finish APIs 
-proc clFlush*(a2: TCLCommand_queue): TCLInt {.importc: "clFlush", dynlib: cldll.}
+proc clFlush*(a2: TCLCommand_queue): TCLint {.importc: "clFlush", dynlib: cldll.}
   # command_queue 
-proc clFinish*(a2: TCLCommand_queue): TCLInt {.importc: "clFinish", dynlib: cldll.}
+proc clFinish*(a2: TCLCommand_queue): TCLint {.importc: "clFinish", dynlib: cldll.}
   # command_queue 
 # Enqueued Commands APIs 
 proc clEnqueueReadBuffer*(a2: TCLCommand_queue,  # command_queue 
                           a3: TCLMem,  # buffer 
                           a4: TCLBool,  # blocking_read 
-                          a5: TCLSize_t,  # offset 
-                          a6: TCLSize_t,  # cb 
+                          a5: TCLsize_t,  # offset 
+                          a6: TCLsize_t,  # cb 
                           a7: pointer, a8: TCLUint,  # num_events_in_wait_list 
                           a9: ptr TCLEvent,  # event_wait_list 
-                          a10: ptr TCLEvent): TCLInt {.importc: "clEnqueueReadBuffer", dynlib: cldll.}
+                          a10: ptr TCLEvent): TCLint {.importc: "clEnqueueReadBuffer", dynlib: cldll.}
   # event 
 proc clEnqueueReadBufferRect*(a2: TCLCommand_queue,  # command_queue 
                               a3: TCLMem,  # buffer 
                               a4: TCLBool,  # blocking_read 
-                              a5: ptr TCLSize_t,  # buffer_origin 
-                              a6: ptr TCLSize_t,  # host_origin 
-                              a7: ptr TCLSize_t,  # region 
-                              a8: TCLSize_t,  # buffer_row_pitch 
-                              a9: TCLSize_t,  # buffer_slice_pitch 
-                              a10: TCLSize_t,  # host_row_pitch 
-                              a11: TCLSize_t,  # host_slice_pitch 
+                              a5: ptr TCLsize_t,  # buffer_origin 
+                              a6: ptr TCLsize_t,  # host_origin 
+                              a7: ptr TCLsize_t,  # region 
+                              a8: TCLsize_t,  # buffer_row_pitch 
+                              a9: TCLsize_t,  # buffer_slice_pitch 
+                              a10: TCLsize_t,  # host_row_pitch 
+                              a11: TCLsize_t,  # host_slice_pitch 
                               a12: pointer, a13: TCLUint,  # 
                                                            # num_events_in_wait_list 
                               a14: ptr TCLEvent,  # event_wait_list 
-                              a15: ptr TCLEvent): TCLInt {.importc: "clEnqueueReadBufferRect", dynlib: cldll.}
+                              a15: ptr TCLEvent): TCLint {.importc: "clEnqueueReadBufferRect", dynlib: cldll.}
   # event 
 proc clEnqueueWriteBuffer*(a2: TCLCommand_queue,  # command_queue 
                            a3: TCLMem,  # buffer 
                            a4: TCLBool,  # blocking_write 
-                           a5: TCLSize_t,  # offset 
-                           a6: TCLSize_t,  # cb 
+                           a5: TCLsize_t,  # offset 
+                           a6: TCLsize_t,  # cb 
                            a7: pointer, a8: TCLUint,  # num_events_in_wait_list 
                            a9: ptr TCLEvent,  # event_wait_list 
-                           a10: ptr TCLEvent): TCLInt {.importc: "clEnqueueWriteBuffer", dynlib: cldll.}
+                           a10: ptr TCLEvent): TCLint {.importc: "clEnqueueWriteBuffer", dynlib: cldll.}
   # event 
 proc clEnqueueWriteBufferRect*(a2: TCLCommand_queue,  # command_queue 
                                a3: TCLMem,  # buffer 
                                a4: TCLBool,  # blocking_write 
-                               a5: ptr TCLSize_t,  # buffer_origin 
-                               a6: ptr TCLSize_t,  # host_origin 
-                               a7: ptr TCLSize_t,  # region 
-                               a8: TCLSize_t,  # buffer_row_pitch 
-                               a9: TCLSize_t,  # buffer_slice_pitch 
-                               a10: TCLSize_t,  # host_row_pitch 
-                               a11: TCLSize_t,  # host_slice_pitch 
+                               a5: ptr TCLsize_t,  # buffer_origin 
+                               a6: ptr TCLsize_t,  # host_origin 
+                               a7: ptr TCLsize_t,  # region 
+                               a8: TCLsize_t,  # buffer_row_pitch 
+                               a9: TCLsize_t,  # buffer_slice_pitch 
+                               a10: TCLsize_t,  # host_row_pitch 
+                               a11: TCLsize_t,  # host_slice_pitch 
                                a12: pointer, a13: TCLUint,  # 
                                                             # num_events_in_wait_list 
                                a14: ptr TCLEvent,  # event_wait_list 
-                               a15: ptr TCLEvent): TCLInt {.importc: "clEnqueueWriteBufferRect", dynlib: cldll.}
+                               a15: ptr TCLEvent): TCLint {.importc: "clEnqueueWriteBufferRect", dynlib: cldll.}
   # event 
 proc clEnqueueCopyBuffer*(a2: TCLCommand_queue,  # command_queue 
                           a3: TCLMem,  # src_buffer 
                           a4: TCLMem,  # dst_buffer 
-                          a5: TCLSize_t,  # src_offset 
-                          a6: TCLSize_t,  # dst_offset 
-                          a7: TCLSize_t,  # cb 
+                          a5: TCLsize_t,  # src_offset 
+                          a6: TCLsize_t,  # dst_offset 
+                          a7: TCLsize_t,  # cb 
                           a8: TCLUint,  # num_events_in_wait_list 
                           a9: ptr TCLEvent,  # event_wait_list 
-                          a10: ptr TCLEvent): TCLInt {.importc: "clEnqueueCopyBuffer", dynlib: cldll.}
+                          a10: ptr TCLEvent): TCLint {.importc: "clEnqueueCopyBuffer", dynlib: cldll.}
   # event 
 proc clEnqueueCopyBufferRect*(a2: TCLCommand_queue,  # command_queue 
                               a3: TCLMem,  # src_buffer 
                               a4: TCLMem,  # dst_buffer 
-                              a5: ptr TCLSize_t,  # src_origin 
-                              a6: ptr TCLSize_t,  # dst_origin 
-                              a7: ptr TCLSize_t,  # region 
-                              a8: TCLSize_t,  # src_row_pitch 
-                              a9: TCLSize_t,  # src_slice_pitch 
-                              a10: TCLSize_t,  # dst_row_pitch 
-                              a11: TCLSize_t,  # dst_slice_pitch 
+                              a5: ptr TCLsize_t,  # src_origin 
+                              a6: ptr TCLsize_t,  # dst_origin 
+                              a7: ptr TCLsize_t,  # region 
+                              a8: TCLsize_t,  # src_row_pitch 
+                              a9: TCLsize_t,  # src_slice_pitch 
+                              a10: TCLsize_t,  # dst_row_pitch 
+                              a11: TCLsize_t,  # dst_slice_pitch 
                               a12: TCLUint,  # num_events_in_wait_list 
                               a13: ptr TCLEvent,  # event_wait_list 
-                              a14: ptr TCLEvent): TCLInt {.importc: "clEnqueueCopyBufferRect", dynlib: cldll.}
+                              a14: ptr TCLEvent): TCLint {.importc: "clEnqueueCopyBufferRect", dynlib: cldll.}
   # event 
 proc clEnqueueReadImage*(a2: TCLCommand_queue,  # command_queue 
                          a3: TCLMem,  # image 
                          a4: TCLBool,  # blocking_read 
-                         a5: ptr TCLSize_t,  # origin[3] 
-                         a6: ptr TCLSize_t,  # region[3] 
-                         a7: TCLSize_t,  # row_pitch 
-                         a8: TCLSize_t,  # slice_pitch 
+                         a5: ptr TCLsize_t,  # origin[3] 
+                         a6: ptr TCLsize_t,  # region[3] 
+                         a7: TCLsize_t,  # row_pitch 
+                         a8: TCLsize_t,  # slice_pitch 
                          a9: pointer, a10: TCLUint,  # num_events_in_wait_list 
                          a11: ptr TCLEvent,  # event_wait_list 
-                         a12: ptr TCLEvent): TCLInt {.importc: "clEnqueueReadImage", dynlib: cldll.}
+                         a12: ptr TCLEvent): TCLint {.importc: "clEnqueueReadImage", dynlib: cldll.}
   # event 
 proc clEnqueueWriteImage*(a2: TCLCommand_queue,  # command_queue 
                           a3: TCLMem,  # image 
                           a4: TCLBool,  # blocking_write 
-                          a5: ptr TCLSize_t,  # origin[3] 
-                          a6: ptr TCLSize_t,  # region[3] 
-                          a7: TCLSize_t,  # input_row_pitch 
-                          a8: TCLSize_t,  # input_slice_pitch 
+                          a5: ptr TCLsize_t,  # origin[3] 
+                          a6: ptr TCLsize_t,  # region[3] 
+                          a7: TCLsize_t,  # input_row_pitch 
+                          a8: TCLsize_t,  # input_slice_pitch 
                           a9: pointer, a10: TCLUint,  # num_events_in_wait_list 
                           a11: ptr TCLEvent,  # event_wait_list 
-                          a12: ptr TCLEvent): TCLInt {.importc: "clEnqueueWriteImage", dynlib: cldll.}
+                          a12: ptr TCLEvent): TCLint {.importc: "clEnqueueWriteImage", dynlib: cldll.}
   # event 
 proc clEnqueueCopyImage*(a2: TCLCommand_queue,  # command_queue 
                          a3: TCLMem,  # src_image 
                          a4: TCLMem,  # dst_image 
-                         a5: ptr TCLSize_t,  # src_origin[3] 
-                         a6: ptr TCLSize_t,  # dst_origin[3] 
-                         a7: ptr TCLSize_t,  # region[3] 
+                         a5: ptr TCLsize_t,  # src_origin[3] 
+                         a6: ptr TCLsize_t,  # dst_origin[3] 
+                         a7: ptr TCLsize_t,  # region[3] 
                          a8: TCLUint,  # num_events_in_wait_list 
                          a9: ptr TCLEvent,  # event_wait_list 
-                         a10: ptr TCLEvent): TCLInt {.importc: "clEnqueueCopyImage", dynlib: cldll.}
+                         a10: ptr TCLEvent): TCLint {.importc: "clEnqueueCopyImage", dynlib: cldll.}
   # event 
 proc clEnqueueCopyImageToBuffer*(a2: TCLCommand_queue,  # command_queue 
                                  a3: TCLMem,  # src_image 
                                  a4: TCLMem,  # dst_buffer 
-                                 a5: ptr TCLSize_t,  # src_origin[3] 
-                                 a6: ptr TCLSize_t,  # region[3] 
-                                 a7: TCLSize_t,  # dst_offset 
+                                 a5: ptr TCLsize_t,  # src_origin[3] 
+                                 a6: ptr TCLsize_t,  # region[3] 
+                                 a7: TCLsize_t,  # dst_offset 
                                  a8: TCLUint,  # num_events_in_wait_list 
                                  a9: ptr TCLEvent,  # event_wait_list 
-                                 a10: ptr TCLEvent): TCLInt {.importc: "clEnqueueCopyImageToBuffer", dynlib: cldll.}
+                                 a10: ptr TCLEvent): TCLint {.importc: "clEnqueueCopyImageToBuffer", dynlib: cldll.}
   # event 
 proc clEnqueueCopyBufferToImage*(a2: TCLCommand_queue,  # command_queue 
                                  a3: TCLMem,  # src_buffer 
                                  a4: TCLMem,  # dst_image 
-                                 a5: TCLSize_t,  # src_offset 
-                                 a6: ptr TCLSize_t,  # dst_origin[3] 
-                                 a7: ptr TCLSize_t,  # region[3] 
+                                 a5: TCLsize_t,  # src_offset 
+                                 a6: ptr TCLsize_t,  # dst_origin[3] 
+                                 a7: ptr TCLsize_t,  # region[3] 
                                  a8: TCLUint,  # num_events_in_wait_list 
                                  a9: ptr TCLEvent,  # event_wait_list 
-                                 a10: ptr TCLEvent): TCLInt {.importc: "clEnqueueCopyBufferToImage", dynlib: cldll.}
+                                 a10: ptr TCLEvent): TCLint {.importc: "clEnqueueCopyBufferToImage", dynlib: cldll.}
   # event 
 proc clEnqueueMapBuffer*(a2: TCLCommand_queue,  # command_queue 
                          a3: TCLMem,  # buffer 
                          a4: TCLBool,  # blocking_map 
                          a5: TCLMap_flags,  # map_flags 
-                         a6: TCLSize_t,  # offset 
-                         a7: TCLSize_t,  # cb 
+                         a6: TCLsize_t,  # offset 
+                         a7: TCLsize_t,  # cb 
                          a8: TCLUint,  # num_events_in_wait_list 
                          a9: ptr TCLEvent,  # event_wait_list 
                          a10: ptr TCLEvent,  # event 
-                         a11: ptr TCLInt): pointer {.importc: "clEnqueueMapBuffer", dynlib: cldll.}
+                         a11: ptr TCLint): pointer {.importc: "clEnqueueMapBuffer", dynlib: cldll.}
   # errcode_ret 
 proc clEnqueueMapImage*(a2: TCLCommand_queue,  # command_queue 
                         a3: TCLMem,  # image 
                         a4: TCLBool,  # blocking_map 
                         a5: TCLMap_flags,  # map_flags 
-                        a6: ptr TCLSize_t,  # origin[3] 
-                        a7: ptr TCLSize_t,  # region[3] 
-                        a8: ptr TCLSize_t,  # image_row_pitch 
-                        a9: ptr TCLSize_t,  # image_slice_pitch 
+                        a6: ptr TCLsize_t,  # origin[3] 
+                        a7: ptr TCLsize_t,  # region[3] 
+                        a8: ptr TCLsize_t,  # image_row_pitch 
+                        a9: ptr TCLsize_t,  # image_slice_pitch 
                         a10: TCLUint,  # num_events_in_wait_list 
                         a11: ptr TCLEvent,  # event_wait_list 
                         a12: ptr TCLEvent,  # event 
-                        a13: ptr TCLInt): pointer {.importc: "clEnqueueMapImage", dynlib: cldll.}
+                        a13: ptr TCLint): pointer {.importc: "clEnqueueMapImage", dynlib: cldll.}
   # errcode_ret 
 proc clEnqueueUnmapMemObject*(a2: TCLCommand_queue,  # command_queue 
                               a3: TCLMem,  # memobj 
                               a4: pointer, a5: TCLUint,  # 
                                                          # num_events_in_wait_list 
                               a6: ptr TCLEvent,  # event_wait_list 
-                              a7: ptr TCLEvent): TCLInt {.importc: "clEnqueueUnmapMemObject", dynlib: cldll.}
+                              a7: ptr TCLEvent): TCLint {.importc: "clEnqueueUnmapMemObject", dynlib: cldll.}
   # event 
 proc clEnqueueNDRangeKernel*(a2: TCLCommand_queue,  # command_queue 
                              a3: TCLKernel,  # kernel 
                              a4: TCLUint,  # work_dim 
-                             a5: ptr TCLSize_t,  # global_work_offset 
-                             a6: ptr TCLSize_t,  # global_work_size 
-                             a7: ptr TCLSize_t,  # local_work_size 
+                             a5: ptr TCLsize_t,  # global_work_offset 
+                             a6: ptr TCLsize_t,  # global_work_size 
+                             a7: ptr TCLsize_t,  # local_work_size 
                              a8: TCLUint,  # num_events_in_wait_list 
                              a9: ptr TCLEvent,  # event_wait_list 
-                             a10: ptr TCLEvent): TCLInt {.importc: "clEnqueueNDRangeKernel", dynlib: cldll.}
+                             a10: ptr TCLEvent): TCLint {.importc: "clEnqueueNDRangeKernel", dynlib: cldll.}
   # event 
 proc clEnqueueTask*(a2: TCLCommand_queue,  # command_queue 
                     a3: TCLKernel,  # kernel 
                     a4: TCLUint,  # num_events_in_wait_list 
                     a5: ptr TCLEvent,  # event_wait_list 
-                    a6: ptr TCLEvent): TCLInt {.importc: "clEnqueueTask", dynlib: cldll.}
+                    a6: ptr TCLEvent): TCLint {.importc: "clEnqueueTask", dynlib: cldll.}
   # event 
-#extern  TCLInt 
+#extern  TCLint 
 #clEnqueueNativeKernel(TCLCommand_queue  /* command_queue */,
 #					  void (*user_func)(void *), 
 #                      void *            /* args */,
-#                      TCLSize_t            /* cb_args */, 
+#                      TCLsize_t            /* cb_args */, 
 #                      TCLUint           /* num_mem_objects */,
 #                      const cl_mem *    /* mem_list */,
 #                      const void **     /* args_mem_loc */,
@@ -874,13 +875,13 @@ proc clEnqueueTask*(a2: TCLCommand_queue,  # command_queue
 #                      const cl_event *  /* event_wait_list */,
 #                      cl_event *        /* event */) ;
 proc clEnqueueMarker*(a2: TCLCommand_queue,  # command_queue 
-                      a3: ptr TCLEvent): TCLInt {.importc: "clEnqueueMarker", dynlib: cldll.}
+                      a3: ptr TCLEvent): TCLint {.importc: "clEnqueueMarker", dynlib: cldll.}
   # event 
 proc clEnqueueWaitForEvents*(a2: TCLCommand_queue,  # command_queue 
                              a3: TCLUint,  # num_events 
-                             a4: ptr TCLEvent): TCLInt {.importc: "clEnqueueWaitForEvents", dynlib: cldll.}
+                             a4: ptr TCLEvent): TCLint {.importc: "clEnqueueWaitForEvents", dynlib: cldll.}
   # event_list 
-proc clEnqueueBarrier*(a2: TCLCommand_queue): TCLInt {.importc: "clEnqueueBarrier", dynlib: cldll.}
+proc clEnqueueBarrier*(a2: TCLCommand_queue): TCLint {.importc: "clEnqueueBarrier", dynlib: cldll.}
   # command_queue 
 # Extension function access
 # 

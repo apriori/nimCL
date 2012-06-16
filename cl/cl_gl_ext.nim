@@ -27,6 +27,7 @@
 import "cl/cl"
 import "cl/cl_gl"
 import "cl/cl_platform"
+{.deadCodeElim:on.}
 
 #
 #  For each extension, follow this template

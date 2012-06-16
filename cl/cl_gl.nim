@@ -31,6 +31,7 @@ import "cl/cl"
 import "cl/cl_platform"
 
 {.push callConv: stdcall.} 
+{.deadCodeElim:on.}
 
 when not(defined(OPENCL_CL_GL_H)): 
   const 
@@ -58,50 +59,50 @@ when not(defined(OPENCL_CL_GL_H)):
     proc clCreateFromGLBuffer*(a2: TCLContext,  # context 
                                a3: TCLMem_flags,  # flags 
                                a4: cl_GLuint,  # bufobj 
-                               a5: ptr cint): TCLMem {.importc: "clCreateFromGLBuffer", dynlib: "libOpenCL.so".}
+                               a5: ptr cint): TCLMem {.importc: "clCreateFromGLBuffer", dynlib: cldll.}
       # errcode_ret 
     proc clCreateFromGLTexture2D*(a2: TCLContext,  # context 
                                   a3: TCLMem_flags,  # flags 
                                   a4: cl_GLenum,  # target 
                                   a5: cl_GLint,  # miplevel 
                                   a6: cl_GLuint,  # texture 
-                                  a7: ptr TCLInt): TCLMem {.importc: "clCreateFromGLTexture2D", dynlib: "libOpenCL.so".}
+                                  a7: ptr TCLInt): TCLMem {.importc: "clCreateFromGLTexture2D", dynlib: cldll.}
       # errcode_ret 
     proc clCreateFromGLTexture3D*(a2: TCLContext,  # context 
                                   a3: TCLMem_flags,  # flags 
                                   a4: cl_GLenum,  # target 
                                   a5: cl_GLint,  # miplevel 
                                   a6: cl_GLuint,  # texture 
-                                  a7: ptr TCLInt): TCLMem {.importc: "clCreateFromGLTexture3D", dynlib: "libOpenCL.so".}
+                                  a7: ptr TCLInt): TCLMem {.importc: "clCreateFromGLTexture3D", dynlib: cldll.}
       # errcode_ret 
     proc clCreateFromGLRenderbuffer*(a2: TCLContext,  # context 
                                      a3: TCLMem_flags,  # flags 
                                      a4: cl_GLuint,  # renderbuffer 
-                                     a5: ptr TCLInt): TCLMem {.importc: "clCreateFromGLRenderbuffer", dynlib: "libOpenCL.so".}
+                                     a5: ptr TCLInt): TCLMem {.importc: "clCreateFromGLRenderbuffer", dynlib: cldll.}
       # errcode_ret 
     proc clGetGLObjectInfo*(a2: TCLMem,  # memobj 
                             a3: ptr TCLGL_object_type,  # gl_object_type 
-                            a4: ptr cl_GLuint): TCLInt {.importc: "clGetGLObjectInfo", dynlib: "libOpenCL.so".}
+                            a4: ptr cl_GLuint): TCLInt {.importc: "clGetGLObjectInfo", dynlib: cldll.}
       # gl_object_name 
     proc clGetGLTextureInfo*(a2: TCLMem,  # memobj 
                              a3: TCLGL_texture_info,  # param_name 
                              a4: TCLSize_t,  # param_value_size 
                              a5: pointer, 
-                             a6: ptr TCLSize_t): TCLInt {.importc: "clGetGLTextureInfo", dynlib: "libOpenCL.so".}
+                             a6: ptr TCLSize_t): TCLInt {.importc: "clGetGLTextureInfo", dynlib: cldll.}
       # param_value_size_ret 
     proc clEnqueueAcquireGLObjects*(a2: TCLCommand_queue,  # command_queue 
                                     a3: TCLUint,  # num_objects 
                                     a4: ptr TCLMem,  # mem_objects 
                                     a5: TCLUint,  # num_events_in_wait_list 
                                     a6: ptr TCLEvent,  # event_wait_list 
-                                    a7: ptr TCLEvent): TCLInt {.importc: "clEnqueueAcquireGLObjects", dynlib: "libOpenCL.so".}
+                                    a7: ptr TCLEvent): TCLInt {.importc: "clEnqueueAcquireGLObjects", dynlib: cldll.}
       # event 
     proc clEnqueueReleaseGLObjects*(a2: TCLCommand_queue,  # command_queue 
                                     a3: TCLUint,  # num_objects 
                                     a4: ptr TCLMem,  # mem_objects 
                                     a5: TCLUint,  # num_events_in_wait_list 
                                     a6: ptr TCLEvent,  # event_wait_list 
-                                    a7: ptr TCLEvent): TCLInt {.importc: "clEnqueueReleaseGLObjects", dynlib: "libOpenCL.so".}
+                                    a7: ptr TCLEvent): TCLInt {.importc: "clEnqueueReleaseGLObjects", dynlib: cldll.}
       # event 
     # cl_khr_gl_sharing extension  
     const 
@@ -125,7 +126,7 @@ when not(defined(OPENCL_CL_GL_H)):
     proc clGetGLContextInfoKHR*(a2: ptr TCLContext_properties,  # properties 
                                 a3: TCLGL_context_info,  # param_name 
                                 a4: int,  # param_value_size 
-                                a5: pointer, a6: ptr int): TCLInt {.importc: "clGetGLContextInfoKHR", dynlib: "libOpenCL.so".}
+                                a5: pointer, a6: ptr int): TCLInt {.importc: "clGetGLContextInfoKHR", dynlib: cldll.}
       # param_value_size_ret 
     type 
       clGetGLContextInfoKHR_fn* = proc (properties: ptr TCLContext_properties, 
