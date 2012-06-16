@@ -22,7 +22,7 @@
 # ****************************************************************************
 # $Revision: 11985 $ on $Date: 2010-07-15 11:16:06 -0700 (Thu, 15 Jul 2010) $ 
 
-import "CL/cl_platform"
+import "cl/cl_platform"
 {.push callConv: stdcall.} 
 
 

@@ -25,9 +25,9 @@
 when not(defined(CL_PLATFORM_H)): 
   const 
    CL_PLATFORM_H* = true
-  when defined(APPLE): 
+  when defined(macosx): 
     # Contains #defines for AVAILABLE_MAC_OS_X_VERSION_10_6_AND_LATER below 
-  when defined(WIN32): 
+  when defined(windows): 
     const 
       CL_API_ENTRY* = true
       #CL_API_CALL* = __stdcall
@@ -37,7 +37,7 @@ when not(defined(CL_PLATFORM_H)):
       CL_API_ENTRY* = true
       CL_API_CALL* = true
       CL_CALLBACK* = true
-  when (defined(WIN32) and defined(MSC_VER)): 
+  when (defined(windows))): 
     # scalar types  
     #
     #typedef signed   __int8         cl_char;

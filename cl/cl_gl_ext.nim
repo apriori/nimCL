@@ -24,9 +24,9 @@
 # cl_gl_ext.h contains vendor (non-KHR) OpenCL extensions which have           
 # OpenGL dependencies.                                                         
 
-import "CL/cl"
-import "CL/cl_gl"
-import "CL/cl_platform"
+import "cl/cl"
+import "cl/cl_gl"
+import "cl/cl_platform"
 
 #
 #  For each extension, follow this template

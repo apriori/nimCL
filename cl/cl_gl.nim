@@ -27,8 +27,8 @@
 #  OpenGL or OpenGL ES headers before #including cl_gl.h.
 # 
 
-import "CL/cl"
-import "CL/cl_platform"
+import "cl/cl"
+import "cl/cl_platform"
 
 {.push callConv: stdcall.} 
 

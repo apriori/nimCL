@@ -22,14 +22,11 @@
 # ****************************************************************************
 # $Revision: 11708 $ on $Date: 2010-06-13 23:36:24 -0700 (Sun, 13 Jun 2010) $ 
 
-when not(defined(OPENCL_H)): 
-  const 
-    OPENCL_H* = true
-  when defined(APPLE): 
-    nil
-  else:
-    import "CL/cl"
-    import "CL/cl_gl"
-    import "CL/cl_gl_ext"
-    import "CL/cl_ext"
- 
+when defined(macosx): 
+  nil
+else:
+  import "cl/cl"
+  import "cl/cl_gl"
+  import "cl/cl_gl_ext"
+  import "cl/cl_ext"
+
